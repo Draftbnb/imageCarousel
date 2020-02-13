@@ -24,7 +24,8 @@ curl -X GET http://localhost:3000/gallery/
 
 Example output:
 ```javascript
-[{...},
+[
+{...},
 {...},
 {...},
 ]
@@ -114,3 +115,28 @@ Example command to delete a gallery:
 ```terminal
 Curl -X DELETE 'http://localhost:3000/gallery/21'
 ```
+
+# Database Schemas
+
+PostgreSQL:
+
+![Schema Image] (https://user-images.githubusercontent.com/56744348/74473709-ebe58e80-4e58-11ea-8c61-eff16c58fcd1.png)
+
+Cassandra:
+
+{
+	"listing_id" : 19,
+	"listing_title" : "Downtown SF Studio Apartment Near Civic Center",
+	"listing_images" : [
+		{
+			"id" : 561554778,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+			"caption" : ""
+		},
+		{
+			"id" : 561554726,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+			"caption" : ""
+		},
+	],
+}
