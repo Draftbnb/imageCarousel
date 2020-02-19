@@ -8,13 +8,13 @@
 
 API Documentation
 ______________________________________________________________________
-GET /gallery
+GET /galleries
 - BEHAVIOR
-  - retrieves all stored galleries in the database
+  - Get all the galleries
 - INPUT PARAMETERS
   - none
 - OUTPUT
-  - an array of objects representing galleries
+  - an array of objects representing the galleries with listing_id, listing_title, id, caption and url.
   - returns an empty array if no galleries are in the database
 
 Example command to pull all the galeries:
@@ -48,20 +48,20 @@ curl -X GET 'http://localhost:3000/gallery/21'
 Example output:
 ```javascript
 {
-	"listing_id" : 19,
+	"listing_id" : 21,
 	"listing_title" : "Downtown SF Studio Apartment Near Civic Center",
 	"listing_images" : [
 		{
-			"id" : 561554778,
+			"id" : 0,
 			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
-			"caption" : ""
+			"caption" : "Beautiful and sunny room"
 		},
 		{
-			"id" : 561554726,
+			"id" : 1,
 			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
-			"caption" : ""
-		},
-	],
+			"caption" : "The bathroom is clean and has all the utilities"
+		}
+	]
 }
 ```
 ______________________________________________________________________
@@ -70,7 +70,6 @@ POST /gallery
   - stores a new gallery into the database
 - INPUT PARAMETERS
   - an object with properties:
-
     - listing_id (type NUMBER): unique property identifier
     - listing_title (type STRING): name of the property
     - listing_images (type OBJECT): array containing the pictures of the property
@@ -83,7 +82,18 @@ POST /gallery
 
 Example command to insert a gallery into the database: 
 ```terminal
-curl -X POST 'Content-Type: application/json' '{"listing_id" : "200000","listing_title" : "xxxx","listing_images" : [{"id" : "561554778","url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90","caption" : ""},{"id" : "561554726","url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c90","caption" : "beautiful place"}]}' 'http://localhost:3000/gallery/21'
+curl -X POST 'Content-Type: application/json' '{
+  "listing_id" : "200000","listing_title" : "xxxx","listing_images" : [
+    {
+      "id" : "561554778",
+      "url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+      "caption" : ""},
+    {
+        "id" : "561554726",
+        "url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+        "caption" : "beautiful place"
+    }
+  ]}' 'http://localhost:3000/gallery/21'
 ```
 
 ______________________________________________________________________
@@ -97,7 +107,12 @@ PUT /gallery/:id
 
 Example command to update a gallery: 
 ```terminal
-curl -X PUT -H "content-type: application/JSON" -d '{"$set": {"listing_title":"bob","listing_images.0.caption":"beautiful room"}}' http://localhost:3000/gallery/22
+curl -X PUT -H "content-type: application/JSON" -d '{
+  "$set": {
+    "listing_title":"bob",
+    "listing_images.0.caption":"beautiful room"
+  }
+}' http://localhost:3000/gallery/22
 ```
 ______________________________________________________________________
 DELETE /:id
@@ -115,28 +130,38 @@ Curl -X DELETE 'http://localhost:3000/gallery/21'
 
 # Database Schemas
 
-PostgreSQL:
+POSTGRESQL:
 
 ![Schema Image](https://user-images.githubusercontent.com/56744348/74473709-ebe58e80-4e58-11ea-8c61-eff16c58fcd1.png)
 
 Listing Table:
-id (INT) AUTO_INCREMENT PRIMARY KEY
-listing_title (VARCHAR(30)) 
+-listing_id INTEGER PRIMARY KEY
+-listing_title TEXT
 
 Images Table:
-id (INT) AUTO_INCREMENT PRIMARY KEY
-url (VARCHAR(30))
-caption (VARCHAR(50))
-listing_id (INT) FOREIGN KEY
+-id INTEGER
+-url TEXT
+-caption TEXT
+-listing_id INTEGER INTEGER REFERENCES sql_listings(listing_id)
 
-Cassandra:
+CASSANDRA:
 
+-Sample output:
 ```json
 {
 	"listing_id" : 21,
 	"listing_title" : "Downtown SF Studio Apartment Near Civic Center",
-	"id" : 561554778,
-	"url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
-	"caption" : "Beautiful and sunny room"
+	"listing_images" : [
+		{
+			"id" : 0,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+			"caption" : "Beautiful and sunny room"
+		},
+		{
+			"id" : 1,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+			"caption" : "The bathroom is clean and has all the utilities"
+		}
+	]
 }
 ```

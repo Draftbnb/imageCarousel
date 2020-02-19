@@ -7,13 +7,18 @@ import SmallImage from '../elements/ImageHeader/smallImage';
 import SmallImageDiv from '../elements/ImageHeader/smallImageDiv';
 
 const FiveImages = ({ viewSelectHandler, clickedImageHandler, listingObj }) => {
+
   const [hoveredImage, setHoveredImage] = useState(null);
 
   const bigImgUrl = `${listingObj.listing_images[0].url.split('?')[0]}?aki_policy=xx_large`;
-  const smallImgUrl1 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[1].id}.jpg`;
-  const smallImgUrl2 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[2].id}.jpg`;
-  const smallImgUrl3 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[3].id}.jpg`;
-  const smallImgUrl4 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[4].id}.jpg`;
+  const smallImgUrl1 = `${listingObj.listing_images[1].url}`;
+  const smallImgUrl2 = `${listingObj.listing_images[2].url}`;
+  const smallImgUrl3 = `${listingObj.listing_images[3].url}`;
+  const smallImgUrl4 = `${listingObj.listing_images[4].url}`;
+  // const smallImgUrl1 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[1].id}.jpg`;
+  // const smallImgUrl2 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[2].id}.jpg`;
+  // const smallImgUrl3 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[3].id}.jpg`;
+  // const smallImgUrl4 = `https://s3.us-west-1.amazonaws.com/draftbnb.gallery/album1/${listingObj.listing_images[4].id}.jpg`;
 
   const mouseEnterHandler = (e) => {
     setHoveredImage(e.target.name);

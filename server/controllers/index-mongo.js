@@ -2,26 +2,24 @@ const models = require('../models');
 
 module.exports = {
   gallery: {
+    insertAll: (req, res) => {
+      models.gallery.insertAll(data, (err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.sendStatus(200);
+        }
+      });
+    },
 
     getOne: (req, res) => {
       const id = req.params.id;
       models.gallery.getOne(id, (err, results) => {
         if (err) {
-          res.sendStatus(500);
-          res.end(err);
+          console.log(err);
         } else {
-          var reformattedObj = {};
-          reformattedObj["listing_id"] = results[0]["listing_id"];
-          reformattedObj["listing_title"] = results[0]["listing_title"];
-          reformattedObj["listing_images"] = [];
-          for (var i = 0; i < results.length; i++) {
-            var newObj = {};
-            newObj["id"] = results[i]["id"];
-            newObj["url"] =  results[i]["url"];
-            newObj["caption"] = results[i]["caption"];
-            reformattedObj["listing_images"].push(newObj);
-          }
-          res.json([reformattedObj]);
+          console.log(results);
+          res.json(results);
         }
       });
     },
@@ -37,7 +35,7 @@ module.exports = {
     },
 
     postOne: (req, res) => {
-      console.log(req.body);
+      // console.log('called', req.body);
       models.gallery.postOne(req.body, (err, results) => {
         if (err) {
           console.log(err);
@@ -60,6 +58,7 @@ module.exports = {
     },
 
     updateOne: (req, res) => {
+      console.log(req.body);
       const id = req.params.id;
       models.gallery.updateOne(id, req.body, (err, results) => {
         if (err) {
@@ -69,16 +68,17 @@ module.exports = {
           res.json(results);
         }
       })
+
     },
 
     deleteAll: (req, res) => {
-      models.gallery.deleteAll((err, results) => {
+      models.gallery.insertAll((err, results) => {
         if (err) {
           console.log(err);
         } else {
-          res.json(results);
+          res.sendStatus(200);
         }
       });
     },
-  }
+  },
 };

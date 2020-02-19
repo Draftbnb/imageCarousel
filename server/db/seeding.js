@@ -1,77 +1,31 @@
 /*
 
-{
-	"listing_id" : 19,
-	"listing_title" : "Downtown SF Studio Apartment Near Civic Center",
-	"listing_images" : [
-		{
-			"id" : 561554778,
-			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
-			"caption" : ""
-		},
-		{
-			"id" : 561554726,
-			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
-			"caption" : ""
-		},
-	],
-}
-
 NoSQL SCHEMA:
 
 Listings Table:
 
 listing_id INT 
-listing_title VARCHAR(30)
+listing_title Text
 listing_image_id INT
-listing_image_url VARCHAR(30)
-listing_caption VARCHAR(30)
+listing_image_url Text
+listing_caption Text
 
 SQL SCHEMA:
 
 Listing Table:
-id (INT) AUTO_INCREMENT PRIMARY KEY
-listing_title (VARCHAR(30)) 
+id INT PRIMARY KEY
+listing_title TEXT
 
 Images Table:
-id (INT) AUTO_INCREMENT PRIMARY KEY
-url (VARCHAR(30))
-caption (VARCHAR(50))
-listing_id (INT) FOREIGN KEY
+id INT PRIMARY KEY
+url TEXT,
+caption TEXT,
+listing_id INT FOREIGN KEY
 */
 
 
 var faker = require('faker');
-var createCsvWriter = require('csv-writer').createObjectCsvWriter;
-
-const csvWriterNoSQL = createCsvWriter({
-    path: 'NoSQLdata.csv',
-    header: [
-        {id: 'listing_id', title: 'listing_id'},
-        {id: 'listing_title', title: 'listing_title'},
-        {id: 'id', title: 'listing_image_id'},
-        {id: 'url', title: 'listing_image_url'},
-        {id: 'caption', title: 'listing_caption'}
-    ]
-})
-
-const csvWriterSQL_listings = createCsvWriter({
-    path: 'SQL_listings_data.csv',
-    header: [
-        {id: 'listing_id', title: 'listing_id'},
-        {id: 'listing_title', title: 'listing_title'}
-    ]
-})
-
-const csvWriterSQL_images = createCsvWriter({
-    path: 'SQL_images_data.csv',
-    header: [
-        {id: 'listing_id', title: 'listing_id'},
-        {id: 'id', title: 'listing_image_id'},
-        {id: 'url', title: 'listing_image_url'},
-        {id: 'caption', title: 'listing_caption'}
-    ]
-})
+const fs = require('fs');
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -79,73 +33,117 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-var NoSQLdata = [];
-var SQLdata_listings= [];
-var SQLdata_images= [];
+var createHeaders = () => {
+    //For NoSQL
+    var NoSQL_header = 'listing_id, listing_title, id, url, caption\n';
+    var SQL_listings_header = 'listing_id, listing_title\n';
+    var SQL_images_header = 'listing_id, id, url, caption\n';
+
+    fs.appendFile('./NoSQLdata.csv', NoSQL_header, (err) => {
+        if (err) {
+            throw err
+        } else {
+            console.log('Nosql header success');
+        };
+    })
+
+    fs.appendFile('./SQL_listings.csv', SQL_listings_header, (err) => {
+        if (err) {
+            throw err
+        } else {
+            console.log('SQL listings header success');
+        };
+    })
+
+    fs.appendFile('./SQL_images.csv', SQL_images_header, (err) => {
+        if (err) {
+            throw err
+        } else {
+            console.log('SQL images success');
+        };
+    })
+}
+
+var iterationCount = 0;
+var count = 0;
 
 var seeding = (n) => {
-    var count = 0;
+    console.log(iterationCount);
 
-    for (var i = 0; i < n; i ++) {
-        console.log(i);
-        //For NoSQL
-        var property_nosql = {};
-        property_nosql['listing_id'] = count;
-        property_nosql['listing_title'] = faker.lorem.words();
+    if (iterationCount === 1000) {
+        return;
+    } else {
+        var NoSQLdata = '';
+        var SQLdata_listings = '';
+        var SQLdata_images = '';
 
-        //For SQL - listings
-        var property_sql = {};
-        property_sql['listing_id'] = count;
-        property_sql['listing_title'] = property_nosql['listing_title'];
+        for (var i = 0; i < 10000; i++) {
+            var fakeTitle = faker.lorem.words();
+            var imageID = 0;
 
-        //For SQL - images
-        var property_sql_images = {};
-        property_sql_images['listing_id'] = count;
+            //For SQL - listings
+            SQLdata_listings += count;
+            SQLdata_listings += ', ';
+            SQLdata_listings += fakeTitle;
+            SQLdata_listings += '\n';
 
-        count++;
-        
-        var imageID = 0;
+            for (var j = 0; j < getRandomInt(6, 15); j++) {
+                //For NoSQL
+                NoSQLdata += count;
+                NoSQLdata += ', ';
+                NoSQLdata += fakeTitle;
+                NoSQLdata += ', ';
+                NoSQLdata += imageID;
+                NoSQLdata += ', ';
+                NoSQLdata += 'https://loremflickr.com/320/240/house';
+                NoSQLdata += ', ';
+                var fakeCaption = faker.lorem.words();
+                NoSQLdata += fakeCaption;
+                NoSQLdata += '\n';
 
-        for (var j = 0 ; j < getRandomInt(6,15); j++) {
+                //For SQL - images
+                SQLdata_images += count;
+                SQLdata_images += ', ';
+                SQLdata_images += imageID;
+                SQLdata_images += ', ';
+                SQLdata_images += 'https://loremflickr.com/320/240/house';
+                SQLdata_images += ', ';
+                SQLdata_images += fakeCaption;
+                SQLdata_images += '\n';
 
-        //For NoSQL
-            property_nosql['id'] = imageID;
-            property_nosql['url'] = 'https://loremflickr.com/320/240/house';
-            property_nosql['caption'] = faker.lorem.text();
-            NoSQLdata.push(JSON.parse(JSON.stringify(property_nosql)));
-
-        //For SQL - images
-            property_sql_images['id'] = imageID;
-            property_sql_images['url'] = 'https://loremflickr.com/320/240/house'; 
-            property_sql_images['caption'] = property_nosql['caption'];
-            SQLdata_images.push(JSON.parse(JSON.stringify(property_sql_images)));
-            imageID++;
+                imageID++;
+            }
+            count++;
         }
-        
-        // //For SQL - listings
-        SQLdata_listings.push(property_sql);
+        iterationCount++;
+
+        //Insert into CSV for NoSQL
+        fs.appendFile('./NoSQLdata.csv', NoSQLdata, (err) => {
+            if (err) {
+                throw err
+            } else {
+                console.log('NoSQL')
+                //Insert into CSV for SQL listings
+                fs.appendFile('./SQL_listings.csv', SQLdata_listings, (err) => {
+                    if (err) {
+                        throw err
+                    } else {
+                        console.log('SQL-Listings')
+                        //Insert into CSV for SQL images
+                        fs.appendFile('./SQL_images.csv', SQLdata_images, (err) => {
+                            if (err) {
+                                throw err
+                            } else {
+                                console.log('SQL-images')
+                                seeding();
+                            };
+                        })
+                    };
+                })
+            };
+        })
     }
 }
 
-seeding(1000);
-
-csvWriterNoSQL.writeRecords(NoSQLdata)
-    .then(() => {
-        await csvWriterNoSQL.writeRecords(NoSQLdata)
-        console.log('done');
-    })
-
-csvWriterSQL_listings.writeRecords(SQLdata_listings)
-    .then(() => {
-        console.log('done');
-    })
-
-csvWriterSQL_images.writeRecords(SQLdata_images)
-    .then(() => {
-        console.log('done');
-    })
-
-
-// console.log(NoSQLdata);
-// console.log(SQLdata_listings);
-// console.log(SQLdata_images);
+// createHeaders();
+seeding();
