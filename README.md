@@ -25,9 +25,38 @@ curl -X GET http://localhost:3000/gallery/
 Example output:
 ```javascript
 [
-{...},
-{...},
-{...},
+{
+	"listing_id" : 21,
+	"listing_title" : "Downtown SF Studio Apartment Near Civic Center",
+	"listing_images" : [
+		{
+			"id" : 0,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+			"caption" : "Beautiful and sunny room"
+		},
+		{
+			"id" : 1,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c90",
+			"caption" : "The bathroom is clean and has all the utilities"
+		}
+	]
+},
+{
+	"listing_id" : 22,
+	"listing_title" : "Large House Near Market Street",
+	"listing_images" : [
+		{
+			"id" : 0,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/29a3d676-0c64-4df3-8568-ad1e48d25a5e.jpg?t=r:w1200-h720-sfit,e:fjpg-c20",
+			"caption" : "Spacious living room"
+		},
+		{
+			"id" : 1,
+			"url" : "https://a0.muscache.com/4ea/air/v2/pictures/da820318-2f83-41ab-8bc2-b97ac67dd6da.jpg?t=r:w1200-h720-sfit,e:fjpg-c70",
+			"caption" : "Sunny balcony"
+		}
+	]
+}
 ]
 ```
 ______________________________________________________________________
