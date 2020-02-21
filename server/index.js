@@ -1,3 +1,4 @@
+const nr = require('newrelic');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const express = require('express');
@@ -7,7 +8,7 @@ const port = 3000;
 const controllers = require('./controllers');
 const cors = require('cors');
 
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
