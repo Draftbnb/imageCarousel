@@ -19,12 +19,12 @@ export default function() {
   if (randomQuery < 2) {
     var random = getRandomInt(0,9999999);
   } else {
-    var random = getRandomInt(0,100);
+    var random = getRandomInt(9999800,9999900);
   }
   let res = http.get(`http://localhost:3000/gallery/${random}`);
   check(res, {
     "status was 200": (r) => r.status == 200,
-    "transaction time OK": (r) => r.timings.duration < 200
+    "transaction time OK": (r) => r.timings.duration < 500
   });
   sleep(0.001);
 };
