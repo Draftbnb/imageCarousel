@@ -24,31 +24,35 @@ export default function() {
   let res = http.get(`http://localhost:3000/gallery/${random}`);
   check(res, {
     "status was 200": (r) => r.status == 200,
-    "transaction time OK": (r) => r.timings.duration < 500
+    "transaction time OK": (r) => r.timings.duration < 2000
   });
   sleep(0.001);
 };
 
-// //GET component
-// export default function() {
-//   let res = http.get(`http://localhost:3000/`);
-//   check(res, {
-//     "status was 200": (r) => r.status == 200,
-//     "transaction time OK": (r) => r.timings.duration < 200
-//   });
-//   sleep(0.001);
-// };
+/*
+//GET component
+export default function() {
+  let res = http.get(`http://localhost:3000/`);
+  check(res, {
+    "status was 200": (r) => r.status == 200,
+    "transaction time OK": (r) => r.timings.duration < 200
+  });
+  sleep(0.001);
+};
+*/
 
+/*
 //POST
-// var random = 10000001;
+var counter = 10001001;
 
-// export default function() {
-//     random++;
-//     console.log(random);
-//     let res = http.post(`http://localhost:3000/gallery/`, {listing_id: 10000001, listing_title: 'hello', id: 0, url: 'hello.com', caption: "this is a test"});
-//     check(res, {
-//       "status was 200": (r) => r.status == 200,
-//       "transaction time OK": (r) => r.timings.duration < 200
-//     });
-//     sleep(0.0001);
-//   };
+export default function() {
+    counter++;
+    console.log(counter);
+    let res = http.post(`http://localhost:3000/gallery/`, {listing_id: counter, listing_title: 'hello', id: 0, url: 'hello.com', caption: "this is a test"});
+    check(res, {
+      "status was 200": (r) => r.status == 200,
+      "transaction time OK": (r) => r.timings.duration < 2000
+    });
+    sleep(0.001);
+  };
+*/
