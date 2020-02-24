@@ -1,7 +1,7 @@
 const models = require('../models');
-const redis = require('redis');
+// const redis = require('redis');
 
-const client = redis.createClient(6379);
+// const client = redis.createClient(6379);
 
 module.exports = {
   gallery: {

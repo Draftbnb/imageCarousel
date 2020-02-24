@@ -15,9 +15,9 @@ app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-// app.get('/gallery/:id', controllers.gallery.getOne);
+app.get('/gallery/:id', controllers.gallery.getOne);
 
-app.get('/gallery/:id', controllers.gallery.cache, controllers.gallery.getOne);
+// app.get('/gallery/:id', controllers.gallery.cache, controllers.gallery.getOne);
 
 app.get('/galleries', controllers.gallery.getAll);
 
