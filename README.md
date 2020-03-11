@@ -1,4 +1,4 @@
-## Bed n Breakfast
+## Bed n Breakfast - image carousel module
 
 An image carousel module used to showcase reservation listing photos. Built with React, JavaScript, and CSS.
 
